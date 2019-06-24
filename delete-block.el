@@ -15,7 +15,7 @@
 ;;
 ;; Features that might be required by this library:
 ;;
-;;
+;; `subword'
 ;;
 
 ;;; This file is NOT part of GNU Emacs
@@ -89,7 +89,7 @@
 ;;
 
 ;;; Require
-
+(require 'subword)
 
 ;;; Code:
 
