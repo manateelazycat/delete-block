@@ -6,8 +6,8 @@
 ;; Maintainer: Andy Stewart <lazycat.manatee@gmail.com>
 ;; Copyright (C) 2019, Andy Stewart, all rights reserved.
 ;; Created: 2019-06-22 16:45:58
-;; Version: 0.1
-;; Last-Updated: 2019-06-22 16:45:58
+;; Version: 0.2
+;; Last-Updated: 2019-06-24 20:21:16
 ;;           By: Andy Stewart
 ;; URL: http://www.emacswiki.org/emacs/download/delete-block.el
 ;; Keywords:
@@ -71,6 +71,9 @@
 
 ;;; Change log:
 ;;
+;; 2019/06/24
+;;      * Fix bug that subword movement can't work `subword-mode' is disable.
+;;
 ;; 2019/06/22
 ;;      * First released.
 ;;
@@ -94,15 +97,14 @@
   (interactive)
   (if (eobp)
       (message "End of buffer")
-    (let* ((subword-mode 1)
-           (syntax-move-point
+    (let* ((syntax-move-point
             (save-excursion
               (skip-syntax-forward (string (char-syntax (char-after))))
               (point)
               ))
            (subword-move-point
             (save-excursion
-              (forward-word 1)
+              (subword-forward)
               (point))))
       (kill-region (point) (min syntax-move-point subword-move-point)))))
 
@@ -110,15 +112,14 @@
   (interactive)
   (if (bobp)
       (message "Beginning of buffer")
-    (let* ((subword-mode 1)
-           (syntax-move-point
+    (let* ((syntax-move-point
             (save-excursion
               (skip-syntax-backward (string (char-syntax (char-before))))
               (point)
               ))
            (subword-move-point
             (save-excursion
-              (backward-word 1)
+              (subword-backward)
               (point))))
       (kill-region (point) (max syntax-move-point subword-move-point)))))
 
